@@ -141,6 +141,7 @@ public class Util {
 		return result;
 		
 	}
+<<<<<<< HEAD
 	public static int getRandomFor(){
 		int re= getRandom(100);
 		if(re<20 || re==20)
@@ -194,6 +195,47 @@ public class Util {
 					}
             	}
 				return i;
+=======
+	public static int getRandom(int x){
+		Random random = new Random();
+		Integer yInteger = random.nextInt(x);
+		return yInteger.intValue();
+	}
+	public static int getRandom1(int x){
+		Integer yInteger = getRandom(x);
+		int mid = 5+yInteger.intValue();
+		return getRandom(mid);
+	}
+	public static int getRandom2(int x){
+		Integer yInteger = getRandom(x);
+		int mid = 5-yInteger.intValue();
+		return getRandom(mid);
+	}
+	
+	public static Comparator<Team> getComparator1(){
+		Comparator<Team> c = new Comparator<Team>() {
+            @Override
+            public int compare(Team t1, Team t2) {
+            	if(t1.getPoints()>t2.getPoints()){
+                	return 1;  //正数表示h1比h2要大
+                }else if(t1.getPoints()==t2.getPoints()){
+                	if(t1.getGoals()>t2.getGoals()){
+                		return 1;
+                	}else if (t1.getGoals()==t2.getGoals()) {
+						int ra = getRandom(2);
+						if(ra==1){
+							return 1;
+						}else{
+							return -1;
+						}						
+					}else if (t1.getGoals()<t2.getGoals()) {
+						return -1;
+					}
+                }else if(t1.getPoints()<t2.getPoints()){
+                	 return -1;
+                }
+				return 0;
+>>>>>>> branch 'half' of https://github.com/SSNPink/worldcup.git
             }
         };
 		return c;
