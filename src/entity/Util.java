@@ -26,7 +26,6 @@ public class Util {
 		String[] itemArr;
 		String[][] teamArrs = new String[4][];
 		try (FileReader reader = new FileReader(teamFile)){
-			System.out.println((int) teamFile.length());
 			char[] len = new char[(int) teamFile.length()];
 			reader.read(len);
 			String teamString = new String(len);
@@ -56,7 +55,7 @@ public class Util {
 	public static TreeSet<Team> setTeam(String[][] teamArrs){
 		String[] teamArr;
 		Team team;
-		TreeSet<Team> teams = new TreeSet<>(getComparator1());
+		TreeSet<Team> teams = new TreeSet<>();
 		List<Player> players;
 		for (int i = 0; i < teamArrs.length; i++) {
 			team = new Team();
@@ -110,7 +109,6 @@ public class Util {
 	public static List<String> getPlayerInfo(TreeSet<Team> teams){
 		List<String> playerInfo = new ArrayList<>();
 		List<Player> players;
-		System.out.println("teams size:"+teams.size());
 		if(!teams.isEmpty()){
 			Iterator<Team> iterator =  teams.iterator();
 			while(iterator.hasNext()){
@@ -163,37 +161,37 @@ public class Util {
 		int mid = 5-yInteger.intValue();
 		return getRandom(mid);
 	}
-	public static int compare(Team t1, Team t2){
-		if(t1.getPoints()>t2.getPoints()){
+	public static int compare1(Team t1, Team t2){
+		if(t1.getPoints()<t2.getPoints()){
         	return 1;  //正数表示h1比h2要大
         }else if(t1.getPoints()==t2.getPoints()){
-        	if(t1.getGoals()>t2.getGoals()){
+        	if(t1.getGoals()<t2.getGoals()){
         		return 1;
         	}else if (t1.getGoals()==t2.getGoals()) {
         		return 0;						
-			}else if (t1.getGoals()<t2.getGoals()) {
+			}else if (t1.getGoals()>t2.getGoals()) {
 				return -1;
 			}
-        }else if(t1.getPoints()<t2.getPoints()){
+        }else if(t1.getPoints()>t2.getPoints()){
         	 return -1;
         }
-		return 0;
-		
+		return 0;		
 	}
-	public static Comparator<Team> getComparator1(){
+	
+	public static Comparator<Team> getComparator4(){
 		Comparator<Team> c = new Comparator<Team>() {
             @Override
-            public int compare(Team t1, Team t2) {
-            	int i= compare(t1, t2);
-            	if(i==0){
-            		int ra = getRandom(2);
-					if(ra==1){
-						return 1;
-					}else{
-						return -1;
-					}
-            	}
-				return i;
+            public int compare(Team t1, Team t2) { 	
+            	int re = compare1(t1, t2);
+            	if(re==0){
+            		int ra = getRandom(1);
+            		if(ra==0){
+            			re=  -1;
+            		}else{
+            			re=  1;
+            		}         
+                }
+        		return re;
             }
         };
 		return c;
@@ -202,10 +200,20 @@ public class Util {
 		Comparator<Player> c = new Comparator<Player>() {
             @Override
             public int compare(Player t1, Player t2) {
-                if(t1.getGoals()>=t2.getGoals())
-                    return 1;  //正数表示h1比h2要大
-                else
-                    return -1;
+                int re=0;
+            	if(t1.getGoals()<t2.getGoals()){
+            		re = 1;  //正数表示h1比h2要大
+                }else if(t1.getGoals()==t2.getGoals()){
+                	int ra = getRandom(1);
+                	if(ra==0){
+                		re = -1;
+                	}else {
+                		re = 1;
+					}
+                }else {
+                	re = -1; 
+				}
+                return re;
             }
         };
 		return c;

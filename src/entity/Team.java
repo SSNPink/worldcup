@@ -2,7 +2,7 @@ package entity;
 
 import java.util.List;
 
-public class Team {
+public class Team implements Comparable<Team>{
 	private String tName;
 	private int rank;
 	private List<Player> players;
@@ -71,5 +71,29 @@ public class Team {
 	@Override
 	public String toString() {
 		return tName + "-played" + played + "-won"+ won+ "-lost"+lost+ "-drawn"+drawn + "-goals"+goals+"-points"+points;
+	}
+
+	@Override
+	public int compareTo(Team o) {
+		int re = 0;
+    	if(this.getPoints()<o.getPoints()){
+    		re= 1;  //正数表示h1比h2要大
+        }else if(this.getPoints()==o.getPoints()){
+        	if(this.getGoals()<o.getGoals()){
+        		re=  1;
+        	}else if (this.getGoals()==o.getGoals()) {
+        		int ra = Util.getRandom(1);
+        		if(ra==0){
+        			re=  -1;
+        		}else{
+        			re=  1;
+        		}                								
+			}else if (this.getGoals()>o.getGoals()) {
+				re=  -1;
+			}
+        }else if(this.getPoints()>o.getPoints()){
+        	re=  -1;
+        }
+		return re;
 	}
 }
